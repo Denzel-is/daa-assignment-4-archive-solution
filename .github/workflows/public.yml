@@ -1,26 +1,62 @@
 name: Public checks
+
 on: [push, pull_request, workflow_dispatch]
+
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   checks:
+    name: Java ${{ matrix.java }} / official and independent checks
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['17', '21']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
         with:
           distribution: temurin
-          java-version: '17'
-      - uses: actions/setup-python@v5
+          java-version: ${{ matrix.java }}
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        if: matrix.java == '17'
         with:
           dotnet-version: '8.0.x'
-      - name: Starter compiles and launches
+      - name: All supplied language adapters compile and launch
+        if: matrix.java == '17'
         run: python -c "import subprocess; [subprocess.run(['python','tools/run.py','--language',lang,'--setup'],check=True) for lang in ['Java','Python','Cpp','CSharp']]"
-      - name: Algorithm examples in student repositories
-        if: github.repository != 'RZhaniya/daa-assignment-4-archive'
-        run: python -c "import json,subprocess; lang=json.load(open('submission.json'))['language']; assert lang in ['Java','Python','Cpp','CSharp']; subprocess.run(['python','tools/run.py','--language',lang,'--check'],check=True)"
+      - name: Selected Java adapter compiles and launches
+        run: python tools/run.py --setup
+      - name: Official 44 cases and repeated mixed requests
+        run: python tools/run.py --check
+      - name: Independent semantic, randomized and full-domain checks
+        run: python tests/student/verify.py
+      - name: Reproduce naive, KMP and exact RK comparison
+        if: matrix.java == '17'
+        run: |
+          javac --release 17 -encoding UTF-8 -cp Java/build -d Java/build tests/student/SearchBenchmark.java
+          java -Xmx384m -cp Java/build SearchBenchmark tests/student/benchmark_ci.json
+      - name: Check submission files and recorded evidence
+        run: python tools/check_submission.py
+      - name: Save actual test and benchmark evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: assignment-4-evidence-java-${{ matrix.java }}
+          path: |
+            tests/student/*.json
+            tests/student/*.jsonl
+            tests/student/*.txt
+          if-no-files-found: error
+          retention-days: 30

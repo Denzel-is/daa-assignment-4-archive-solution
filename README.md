@@ -1,51 +1,65 @@
 # Assignment 4 — Dynamic Programming and String Processing
 
-[Interactive lesson and practice](https://rzhaniya.github.io/daa-assignment-4-archive/) · [English specification](docs/Assignment_4_EN.md) · [Русская версия](docs/README_RU.md)
+[![Public checks](https://github.com/Denzel-is/daa-assignment-4-archive-solution/actions/workflows/public.yml/badge.svg)](https://github.com/Denzel-is/daa-assignment-4-archive-solution/actions/workflows/public.yml)
 
-**Course:** Design and Analysis of Algorithms. **Practical:** 50 points. **Defence:** 50 points. **Availability:** 29 October–8 November 2026, 23:59, for both practical work and defence; Moodle records approved extensions.
+Java 17 solution created using the [official GitHub template](https://github.com/RZhaniya/daa-assignment-4-archive). Implements all eight commands, reconstructs optimal witnesses and includes independent semantic tests, full-domain generators and measured search comparisons. The supplied JSON adapter and original learning materials are retained; the solution uses no external Java dependencies.
 
-Implement six parts with eight commands: LCS; ordered adjacent-block merging; maximum-weight independent set on a tree; naive, KMP and exact Rabin–Karp search; suffix array with Kasai LCP; Aho–Corasick. The work covers syllabus weeks 8–10. This is a starter template: the algorithm methods are TODOs. Read the specification before coding.
+[English specification](docs/Assignment_4_EN.md) · [Exact contracts](docs/guide/CONTRACTS.md) · [Analysis and measurements](ANALYSIS.md) · [Test evidence](tests/student/README.md) · [Preparation notes](PREPARATION.md)
 
-## Create your repository
+## Build, run and check
 
-1. Select **Use this template → Create a new repository**. Create your own repository, then clone it to your computer or open it in your development environment. Work in your copy.
-2. Set `language` in `submission.json` to `Java`, `Python`, `Cpp` or `CSharp`. Install Python 3.12+ for the launcher and the selected runtime: JDK 17+, Python 3.12+, C++17 compiler, or .NET 8 SDK.
-3. From the repository root, run `python tools/run.py --setup`. This checks compilation and startup, not the algorithms.
-4. Implement the TODO methods in your chosen language's `source` directory. Preserve the UTF-8 JSON Lines interface. Add your own tests under `tests/student` and complete [ANALYSIS.md](ANALYSIS.md) in English.
-5. Run `python tools/run.py --check`. It checks 44 public cases and a repeated mixed batch. Also test the full published domains, boundary cases and alternative optimal witnesses.
-6. Commit and push your implementation. In **Actions → Public checks**, check the run for that commit. The official template checks startup in all four languages; your copy also runs the algorithm checks.
+Install JDK 17+ and Python 3.12+ (Python runs the provided launcher). Run from the repository root:
 
-## Submit in Moodle
+```sh
+python tools/run.py --setup
+python tools/run.py --check
+python tests/student/verify.py
+python tools/check_submission.py
+python tools/run.py --input tests/student/my_cases.jsonl
+```
 
-Submit the **exact commit URL with its full 40-character SHA**, plus the chosen language, in [Assignment 4 → Online text](https://lms.astanait.edu.kz/mod/assign/view.php?id=95272). An Actions run URL for the same commit is optional. Give the teacher access if your repository is private. Click **Submit assignment** and verify the final submission status. If you revise before the deadline, update the commit link. Do not upload a ZIP as your submission.
+`submission.json` selects `Java`. The launcher creates `Java/build`, compiles all files under `Java/source` with Java 17 compatibility and runs `Main` with a 384 MiB heap. The program accepts one UTF-8 JSON request per line and returns one JSON result per line; mixed tasks start with fresh state. The setup request `{"task":"ping"}` returns `{"status":"ready"}`.
 
-The submitted commit must include selected source files, `submission.json`, your tests, completed English `ANALYSIS.md` and actual build/run/test commands. Include correctness, reconstruction, complexity and a reproducible comparison of naive/KMP/exact RK. Acknowledge sources and AI assistance, their contribution and your own verification.
+After building, run the program directly with:
 
-## Learn and prepare
+```sh
+java -Xmx384m -cp Java/build Main
+```
 
-Use the [bilingual lesson](https://rzhaniya.github.io/daa-assignment-4-archive/), eight small interactive models, [Week 8 lecture](https://rzhaniya.github.io/daa-assignment-4-archive/week8/), and the [ungraded 15-question / 25-minute practice](https://rzhaniya.github.io/daa-assignment-4-archive/practice.html). The public learning questions are separate from the assessed Moodle questions.
+## Implemented algorithms
 
-The [individual English defence](https://lms.astanait.edu.kz/mod/quiz/view.php?id=95271) has **15 questions in 25 minutes**, one attempt: 10 single-answer and 5 multiple-response, three pages of five, free navigation. All six assignment parts are covered. Work independently without AI or external assistance during the defence.
+| Command | Required method | Time after parsing |
+| --- | --- | --- |
+| `lcs` | Prefix DP and optimal subsequence reconstruction | O((a+1)(b+1)) |
+| `merge` | Last-split interval DP and chronological adjacent merges | O(n³) for n≥1; O(1) empty |
+| `tree` | Iterative take/skip tree DP and independent-set reconstruction | O(n+1) |
+| `naive` | Direct comparisons at every legal start | O(nm+n+1) |
+| `kmp` | Prefix function and overlap-preserving fallback | O(n+m+z+1) |
+| `rk` | Base 31/mod 101 rolling hash with exact verification | O(n+m+cm) when 1≤m≤n |
+| `suffix` | Radix prefix doubling and Kasai LCP | O(n log(n+1)+1) |
+| `aho` | Failure automaton and reverse-failure visit aggregation | O(L+95S+p) construction; O(t+S+p) per text |
 
-Each question is worth 1 raw point; quiz grade = raw/15 × 50. A single-answer question earns 1 for a correct answer and 0 for a wrong or blank answer. For a multiple-response question with k correct options (2 or 3), each selected correct option earns 1/k and each selected wrong option deducts 1/(2k), with a floor of zero per question. Selecting all five earns 0.25 for k=2 or about 0.67 for k=3. Full credit requires every correct option and no wrong selections. Follow the quiz instructions and approved accommodations in Moodle.
+See [ANALYSIS.md](ANALYSIS.md) for invariants, reconstruction, correctness, auxiliary/output storage and boundary cases. Empty patterns match every boundary; search results include overlaps. Costs, tree totals and dictionary counts use `long`. Deep trees and reconstructions use explicit traversal orders or stacks.
 
-## Assessment and contracts
+## Reproducible search comparison
 
-Practical work: 19 marking groups, 50 points. Defence: 50 points. A4 is out of 100 and contributes 20% of the second attestation; Quiz II is separate. The practical mark is calculated from the submitted commit using the rubric. Alternative optimal witnesses are accepted wherever reconstruction is non-unique. The rubric defines the 19 marking groups, required output schemas and partial credit.
+The benchmark compares naive, KMP and exact RK on identical random, repetitive near-miss and repetitive dense-match inputs at three sizes within all three domains. It checks correct positions first, warms up the JVM and records five samples per method with the same timing boundary.
 
-| Practical part | Points |
-|---|---:|
-| LCS | 8 |
-| Ordered adjacent-block merging | 7 |
-| Tree independent set | 7 |
-| Naive / KMP / exact RK | 10 |
-| Suffix array and Kasai LCP | 9 |
-| Aho–Corasick | 9 |
-| **Total** | **50** |
+```sh
+javac --release 17 -encoding UTF-8 -cp Java/build -d Java/build tests/student/SearchBenchmark.java
+java -Xmx384m -cp Java/build SearchBenchmark
+```
 
-<details>
-<summary>Detailed reference</summary>
+The seed, generator, raw measurements, medians, hardware and limitations are in [ANALYSIS.md](ANALYSIS.md) and [benchmark_results.json](tests/student/benchmark_results.json). An optional output path lets CI save fresh results separately from the recorded local run.
 
-[Contracts](docs/guide/CONTRACTS.md) · [Rubric](docs/guide/RUBRIC.md) · [Testing](docs/guide/TESTING.md) · [Submission checklist](docs/guide/SUBMISSION.md) · [Algorithm notes](docs/LECTURE_CLARIFICATIONS_EN_RU.md)
+## GitHub Actions
 
-</details>
+[Public checks](https://github.com/Denzel-is/daa-assignment-4-archive-solution/actions) runs on push, pull request and manual dispatch with Java 17 and 21. It runs the official 44 cases and repeated requests, independent small-oracle and full-domain tests, and submission-file checks. Java 17 also checks startup of all four supplied language adapters and reproduces the search benchmark. Actual evidence is retained as downloadable workflow artifacts for 30 days. Actions are pinned to verified commit SHAs and repository permissions are read-only.
+
+## Preparation and submission
+
+Review the [interactive lesson](https://rzhaniya.github.io/daa-assignment-4-archive/), [public practice](https://rzhaniya.github.io/daa-assignment-4-archive/practice.html) and [preparation notes](PREPARATION.md). The notes summarize the public models and practice concepts; they do not record a practice attempt by the repository owner. The assessed individual defence remains a separate Moodle activity.
+
+For Moodle Online text, submit the **exact commit URL with its full 40-character SHA** and **language: Java**. The successful Actions URL for the same SHA is optional evidence. Click Submit assignment and check the final status. Use the official [submission checklist](docs/guide/SUBMISSION.md); do not submit a ZIP.
+
+OpenAI Codex assisted with implementation, testing, measurements, documentation and CI. The [source and assistance disclosure](ANALYSIS.md#sources-and-ai-assistance) states the contribution and verification. Public checks provide feedback; the instructor's independent rubric checks determine the practical mark.

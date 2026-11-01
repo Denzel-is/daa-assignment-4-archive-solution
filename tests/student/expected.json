@@ -1,0 +1,1151 @@
+[
+  {
+    "name": "ping",
+    "input": {
+      "task": "ping"
+    },
+    "expected": {
+      "status": "ready"
+    },
+    "reason": "Supplied JSONL transport answers ready."
+  },
+  {
+    "name": "lcs_both_empty",
+    "input": {
+      "task": "lcs",
+      "a": "",
+      "b": ""
+    },
+    "expected": {
+      "length": 0
+    },
+    "reason": "Empty sequences have no common character."
+  },
+  {
+    "name": "lcs_left_empty",
+    "input": {
+      "task": "lcs",
+      "a": "",
+      "b": "abc"
+    },
+    "expected": {
+      "length": 0
+    },
+    "reason": "An empty input permits only the empty subsequence."
+  },
+  {
+    "name": "lcs_right_empty",
+    "input": {
+      "task": "lcs",
+      "a": "abc",
+      "b": ""
+    },
+    "expected": {
+      "length": 0
+    },
+    "reason": "The other empty-input direction also has optimum zero."
+  },
+  {
+    "name": "lcs_subsequence_not_substring",
+    "input": {
+      "task": "lcs",
+      "a": "tea_time",
+      "b": "team"
+    },
+    "expected": {
+      "length": 4
+    },
+    "reason": "team appears in order, although its m is separated."
+  },
+  {
+    "name": "lcs_alternative_optima",
+    "input": {
+      "task": "lcs",
+      "a": "ab",
+      "b": "ba"
+    },
+    "expected": {
+      "length": 1
+    },
+    "reason": "Both a and b are optimal length-one sequences."
+  },
+  {
+    "name": "lcs_repeated_characters",
+    "input": {
+      "task": "lcs",
+      "a": "aabaac",
+      "b": "abaca"
+    },
+    "expected": {
+      "length": 4
+    },
+    "reason": "Exhaustive subsets of the shorter input establish the optimum."
+  },
+  {
+    "name": "lcs_spaces_case_punctuation",
+    "input": {
+      "task": "lcs",
+      "a": "A !a?",
+      "b": "!A a?"
+    },
+    "expected": {
+      "length": 4
+    },
+    "reason": "Spaces, punctuation and case participate as ordinary characters."
+  },
+  {
+    "name": "merge_empty",
+    "input": {
+      "task": "merge",
+      "sizes": []
+    },
+    "expected": {
+      "cost": 0
+    },
+    "reason": "No merges and zero cost."
+  },
+  {
+    "name": "merge_single",
+    "input": {
+      "task": "merge",
+      "sizes": [
+        1000000000
+      ]
+    },
+    "expected": {
+      "cost": 0
+    },
+    "reason": "One block is already complete, so no cost is paid."
+  },
+  {
+    "name": "merge_zero_ties",
+    "input": {
+      "task": "merge",
+      "sizes": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "expected": {
+      "cost": 0
+    },
+    "reason": "Every chronological adjacent plan has cost zero."
+  },
+  {
+    "name": "merge_two",
+    "input": {
+      "task": "merge",
+      "sizes": [
+        2,
+        3
+      ]
+    },
+    "expected": {
+      "cost": 5
+    },
+    "reason": "The only merge costs 5."
+  },
+  {
+    "name": "merge_alternatives",
+    "input": {
+      "task": "merge",
+      "sizes": [
+        1,
+        1,
+        1
+      ]
+    },
+    "expected": {
+      "cost": 5
+    },
+    "reason": "Either adjacent pair costs 2 first, then 3, total 5."
+  },
+  {
+    "name": "merge_adjacency_matters",
+    "input": {
+      "task": "merge",
+      "sizes": [
+        1,
+        100,
+        1
+      ]
+    },
+    "expected": {
+      "cost": 203
+    },
+    "reason": "Only adjacent pairs may be merged: 101 then 102 gives 203."
+  },
+  {
+    "name": "merge_64bit",
+    "input": {
+      "task": "merge",
+      "sizes": [
+        1000000000,
+        1000000000,
+        1000000000,
+        1000000000
+      ]
+    },
+    "expected": {
+      "cost": 8000000000
+    },
+    "reason": "Two balanced pair merges cost 2e9 each, then 4e9: 8e9 total."
+  },
+  {
+    "name": "merge_asymmetric",
+    "input": {
+      "task": "merge",
+      "sizes": [
+        7,
+        0,
+        2,
+        9,
+        1
+      ]
+    },
+    "expected": {
+      "cost": 40
+    },
+    "reason": "Enumerating every possible next adjacent merge supplies an independent optimum."
+  },
+  {
+    "name": "tree_empty",
+    "input": {
+      "task": "tree",
+      "n": 0,
+      "weights": [],
+      "edges": []
+    },
+    "expected": {
+      "weight": 0
+    },
+    "reason": "The empty tree permits the empty selected set."
+  },
+  {
+    "name": "tree_one_negative",
+    "input": {
+      "task": "tree",
+      "n": 1,
+      "weights": [
+        -1
+      ],
+      "edges": []
+    },
+    "expected": {
+      "weight": 0
+    },
+    "reason": "The empty set beats a negative singleton."
+  },
+  {
+    "name": "tree_one_positive",
+    "input": {
+      "task": "tree",
+      "n": 1,
+      "weights": [
+        1000000000
+      ],
+      "edges": []
+    },
+    "expected": {
+      "weight": 1000000000
+    },
+    "reason": "The singleton itself has optimum 1e9."
+  },
+  {
+    "name": "tree_one_zero",
+    "input": {
+      "task": "tree",
+      "n": 1,
+      "weights": [
+        0
+      ],
+      "edges": []
+    },
+    "expected": {
+      "weight": 0
+    },
+    "reason": "Either selecting or skipping the zero vertex is optimal."
+  },
+  {
+    "name": "tree_all_negative",
+    "input": {
+      "task": "tree",
+      "n": 4,
+      "weights": [
+        -4,
+        -1,
+        -7,
+        -2
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ]
+      ]
+    },
+    "expected": {
+      "weight": 0
+    },
+    "reason": "The empty set has value zero and beats every nonempty set."
+  },
+  {
+    "name": "tree_tie",
+    "input": {
+      "task": "tree",
+      "n": 2,
+      "weights": [
+        1,
+        1
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    "expected": {
+      "weight": 1
+    },
+    "reason": "Either endpoint alone is an optimum of weight one."
+  },
+  {
+    "name": "tree_chain",
+    "input": {
+      "task": "tree",
+      "n": 3,
+      "weights": [
+        4,
+        9,
+        6
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ]
+      ]
+    },
+    "expected": {
+      "weight": 10
+    },
+    "reason": "Endpoints contribute 10, beating the middle vertex's 9."
+  },
+  {
+    "name": "tree_64bit_star",
+    "input": {
+      "task": "tree",
+      "n": 5,
+      "weights": [
+        1000000000,
+        1000000000,
+        1000000000,
+        1000000000,
+        1000000000
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ]
+      ]
+    },
+    "expected": {
+      "weight": 4000000000
+    },
+    "reason": "All four leaves are compatible and total 4e9."
+  },
+  {
+    "name": "naive_both_empty",
+    "input": {
+      "task": "naive",
+      "text": "",
+      "pattern": ""
+    },
+    "expected": {
+      "positions": [
+        0
+      ]
+    },
+    "reason": "An empty pattern matches the sole empty-text boundary 0."
+  },
+  {
+    "name": "kmp_both_empty",
+    "input": {
+      "task": "kmp",
+      "text": "",
+      "pattern": ""
+    },
+    "expected": {
+      "positions": [
+        0
+      ]
+    },
+    "reason": "An empty pattern matches the sole empty-text boundary 0."
+  },
+  {
+    "name": "rk_both_empty",
+    "input": {
+      "task": "rk",
+      "text": "",
+      "pattern": ""
+    },
+    "expected": {
+      "positions": [
+        0
+      ]
+    },
+    "reason": "An empty pattern matches the sole empty-text boundary 0."
+  },
+  {
+    "name": "naive_empty_pattern",
+    "input": {
+      "task": "naive",
+      "text": "A !",
+      "pattern": ""
+    },
+    "expected": {
+      "positions": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "reason": "Empty pattern matches all four boundaries 0..3."
+  },
+  {
+    "name": "kmp_empty_pattern",
+    "input": {
+      "task": "kmp",
+      "text": "A !",
+      "pattern": ""
+    },
+    "expected": {
+      "positions": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "reason": "Empty pattern matches all four boundaries 0..3."
+  },
+  {
+    "name": "rk_empty_pattern",
+    "input": {
+      "task": "rk",
+      "text": "A !",
+      "pattern": ""
+    },
+    "expected": {
+      "positions": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "reason": "Empty pattern matches all four boundaries 0..3."
+  },
+  {
+    "name": "naive_empty_text",
+    "input": {
+      "task": "naive",
+      "text": "",
+      "pattern": "a"
+    },
+    "expected": {
+      "positions": []
+    },
+    "reason": "A nonempty pattern cannot occur in an empty text."
+  },
+  {
+    "name": "kmp_empty_text",
+    "input": {
+      "task": "kmp",
+      "text": "",
+      "pattern": "a"
+    },
+    "expected": {
+      "positions": []
+    },
+    "reason": "A nonempty pattern cannot occur in an empty text."
+  },
+  {
+    "name": "rk_empty_text",
+    "input": {
+      "task": "rk",
+      "text": "",
+      "pattern": "a"
+    },
+    "expected": {
+      "positions": []
+    },
+    "reason": "A nonempty pattern cannot occur in an empty text."
+  },
+  {
+    "name": "naive_longer",
+    "input": {
+      "task": "naive",
+      "text": "ab",
+      "pattern": "abc"
+    },
+    "expected": {
+      "positions": []
+    },
+    "reason": "Pattern length exceeds text length."
+  },
+  {
+    "name": "kmp_longer",
+    "input": {
+      "task": "kmp",
+      "text": "ab",
+      "pattern": "abc"
+    },
+    "expected": {
+      "positions": []
+    },
+    "reason": "Pattern length exceeds text length."
+  },
+  {
+    "name": "rk_longer",
+    "input": {
+      "task": "rk",
+      "text": "ab",
+      "pattern": "abc"
+    },
+    "expected": {
+      "positions": []
+    },
+    "reason": "Pattern length exceeds text length."
+  },
+  {
+    "name": "naive_overlap",
+    "input": {
+      "task": "naive",
+      "text": "aaaaa",
+      "pattern": "aaa"
+    },
+    "expected": {
+      "positions": [
+        0,
+        1,
+        2
+      ]
+    },
+    "reason": "All three overlapping starts 0,1,2 count."
+  },
+  {
+    "name": "kmp_overlap",
+    "input": {
+      "task": "kmp",
+      "text": "aaaaa",
+      "pattern": "aaa"
+    },
+    "expected": {
+      "positions": [
+        0,
+        1,
+        2
+      ]
+    },
+    "reason": "All three overlapping starts 0,1,2 count."
+  },
+  {
+    "name": "rk_overlap",
+    "input": {
+      "task": "rk",
+      "text": "aaaaa",
+      "pattern": "aaa"
+    },
+    "expected": {
+      "positions": [
+        0,
+        1,
+        2
+      ]
+    },
+    "reason": "All three overlapping starts 0,1,2 count."
+  },
+  {
+    "name": "naive_fallback",
+    "input": {
+      "task": "naive",
+      "text": "ababababa",
+      "pattern": "ababa"
+    },
+    "expected": {
+      "positions": [
+        0,
+        2,
+        4
+      ]
+    },
+    "reason": "The overlapping starts are 0,2,4."
+  },
+  {
+    "name": "kmp_fallback",
+    "input": {
+      "task": "kmp",
+      "text": "ababababa",
+      "pattern": "ababa"
+    },
+    "expected": {
+      "positions": [
+        0,
+        2,
+        4
+      ]
+    },
+    "reason": "The overlapping starts are 0,2,4."
+  },
+  {
+    "name": "rk_fallback",
+    "input": {
+      "task": "rk",
+      "text": "ababababa",
+      "pattern": "ababa"
+    },
+    "expected": {
+      "positions": [
+        0,
+        2,
+        4
+      ]
+    },
+    "reason": "The overlapping starts are 0,2,4."
+  },
+  {
+    "name": "naive_case_spaces_punctuation",
+    "input": {
+      "task": "naive",
+      "text": "A!? a!? A!? ",
+      "pattern": "A!? "
+    },
+    "expected": {
+      "positions": [
+        0,
+        8
+      ]
+    },
+    "reason": "Case-sensitive matches begin at 0 and 8."
+  },
+  {
+    "name": "kmp_case_spaces_punctuation",
+    "input": {
+      "task": "kmp",
+      "text": "A!? a!? A!? ",
+      "pattern": "A!? "
+    },
+    "expected": {
+      "positions": [
+        0,
+        8
+      ]
+    },
+    "reason": "Case-sensitive matches begin at 0 and 8."
+  },
+  {
+    "name": "rk_case_spaces_punctuation",
+    "input": {
+      "task": "rk",
+      "text": "A!? a!? A!? ",
+      "pattern": "A!? "
+    },
+    "expected": {
+      "positions": [
+        0,
+        8
+      ]
+    },
+    "reason": "Case-sensitive matches begin at 0 and 8."
+  },
+  {
+    "name": "naive_collision",
+    "input": {
+      "task": "naive",
+      "text": "abdj",
+      "pattern": "ab"
+    },
+    "expected": {
+      "positions": [
+        0
+      ]
+    },
+    "reason": "ab and dj share hash 75 modulo 101, but only start 0 matches."
+  },
+  {
+    "name": "kmp_collision",
+    "input": {
+      "task": "kmp",
+      "text": "abdj",
+      "pattern": "ab"
+    },
+    "expected": {
+      "positions": [
+        0
+      ]
+    },
+    "reason": "ab and dj share hash 75 modulo 101, but only start 0 matches."
+  },
+  {
+    "name": "rk_collision",
+    "input": {
+      "task": "rk",
+      "text": "abdj",
+      "pattern": "ab"
+    },
+    "expected": {
+      "positions": [
+        0
+      ]
+    },
+    "reason": "ab and dj share hash 75 modulo 101, but only start 0 matches."
+  },
+  {
+    "name": "naive_negative_rolling_remainder",
+    "input": {
+      "task": "naive",
+      "text": "~       ab~ab",
+      "pattern": "ab"
+    },
+    "expected": {
+      "positions": [
+        8,
+        11
+      ]
+    },
+    "reason": "High outgoing ASCII values exercise normalized rolling subtraction; starts are 8 and 11."
+  },
+  {
+    "name": "kmp_negative_rolling_remainder",
+    "input": {
+      "task": "kmp",
+      "text": "~       ab~ab",
+      "pattern": "ab"
+    },
+    "expected": {
+      "positions": [
+        8,
+        11
+      ]
+    },
+    "reason": "High outgoing ASCII values exercise normalized rolling subtraction; starts are 8 and 11."
+  },
+  {
+    "name": "rk_negative_rolling_remainder",
+    "input": {
+      "task": "rk",
+      "text": "~       ab~ab",
+      "pattern": "ab"
+    },
+    "expected": {
+      "positions": [
+        8,
+        11
+      ]
+    },
+    "reason": "High outgoing ASCII values exercise normalized rolling subtraction; starts are 8 and 11."
+  },
+  {
+    "name": "suffix_empty",
+    "input": {
+      "task": "suffix",
+      "text": ""
+    },
+    "expected": {
+      "sa": [],
+      "lcp": [],
+      "repeated_length": 0
+    },
+    "reason": "No nonempty suffixes or repeats exist."
+  },
+  {
+    "name": "suffix_one",
+    "input": {
+      "task": "suffix",
+      "text": "?"
+    },
+    "expected": {
+      "sa": [
+        0
+      ],
+      "lcp": [
+        0
+      ],
+      "repeated_length": 0
+    },
+    "reason": "Only suffix 0, with LCP zero and no repeat."
+  },
+  {
+    "name": "suffix_distinct",
+    "input": {
+      "task": "suffix",
+      "text": "A!z~"
+    },
+    "expected": {
+      "sa": [
+        1,
+        0,
+        2,
+        3
+      ],
+      "lcp": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "repeated_length": 0
+    },
+    "reason": "Distinct first characters determine every suffix order; every LCP is zero."
+  },
+  {
+    "name": "suffix_unary",
+    "input": {
+      "task": "suffix",
+      "text": "aaaaaa"
+    },
+    "expected": {
+      "sa": [
+        5,
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "lcp": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "repeated_length": 5
+    },
+    "reason": "Shortest suffix first; adjacent LCPs are 0,1,2,3,4,5 and overlap is allowed."
+  },
+  {
+    "name": "suffix_banana",
+    "input": {
+      "task": "suffix",
+      "text": "banana"
+    },
+    "expected": {
+      "sa": [
+        5,
+        3,
+        1,
+        0,
+        4,
+        2
+      ],
+      "lcp": [
+        0,
+        1,
+        3,
+        0,
+        0,
+        2
+      ],
+      "repeated_length": 3
+    },
+    "reason": "Direct suffix strings give SA 5,3,1,0,4,2 and maximum LCP 3."
+  },
+  {
+    "name": "suffix_tied_repeats",
+    "input": {
+      "task": "suffix",
+      "text": "ababcdcd"
+    },
+    "expected": {
+      "sa": [
+        0,
+        2,
+        1,
+        3,
+        6,
+        4,
+        7,
+        5
+      ],
+      "lcp": [
+        0,
+        2,
+        0,
+        1,
+        0,
+        2,
+        0,
+        1
+      ],
+      "repeated_length": 2
+    },
+    "reason": "ab and cd are both longest repeated substrings of length two."
+  },
+  {
+    "name": "suffix_spaces_case",
+    "input": {
+      "task": "suffix",
+      "text": " A! A? A!"
+    },
+    "expected": {
+      "sa": [
+        6,
+        0,
+        3,
+        8,
+        2,
+        5,
+        7,
+        1,
+        4
+      ],
+      "lcp": [
+        0,
+        3,
+        2,
+        0,
+        1,
+        0,
+        0,
+        2,
+        1
+      ],
+      "repeated_length": 3
+    },
+    "reason": "Printable ASCII order includes spaces and punctuation."
+  },
+  {
+    "name": "aho_no_dictionary",
+    "input": {
+      "task": "aho",
+      "patterns": [],
+      "texts": [
+        "abc",
+        "",
+        "abc"
+      ]
+    },
+    "expected": {
+      "counts": [
+        [],
+        [],
+        []
+      ]
+    },
+    "reason": "Retain an empty count row for each independent text."
+  },
+  {
+    "name": "aho_no_texts",
+    "input": {
+      "task": "aho",
+      "patterns": [
+        "a",
+        "ab"
+      ],
+      "texts": []
+    },
+    "expected": {
+      "counts": []
+    },
+    "reason": "With no queries the result is an empty outer array."
+  },
+  {
+    "name": "aho_empty_both",
+    "input": {
+      "task": "aho",
+      "patterns": [],
+      "texts": []
+    },
+    "expected": {
+      "counts": []
+    },
+    "reason": "Both dictionary and texts are empty."
+  },
+  {
+    "name": "aho_suffix_duplicates_reset",
+    "input": {
+      "task": "aho",
+      "patterns": [
+        "he",
+        "she",
+        "he",
+        "e"
+      ],
+      "texts": [
+        "sheshe",
+        "sheshe",
+        ""
+      ]
+    },
+    "expected": {
+      "counts": [
+        [
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "reason": "Each entry occurs twice in each repeated text, then zero in the empty text."
+  },
+  {
+    "name": "aho_dense_overlap",
+    "input": {
+      "task": "aho",
+      "patterns": [
+        "a",
+        "aa",
+        "aaa",
+        "aa"
+      ],
+      "texts": [
+        "aaaaa",
+        "aa",
+        "a"
+      ]
+    },
+    "expected": {
+      "counts": [
+        [
+          5,
+          4,
+          3,
+          4
+        ],
+        [
+          2,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "reason": "At length five the counts are 5,4,3,4; overlap and duplicate terminals both count."
+  },
+  {
+    "name": "aho_no_cross_text_match",
+    "input": {
+      "task": "aho",
+      "patterns": [
+        "ab",
+        "a",
+        "b"
+      ],
+      "texts": [
+        "a",
+        "b",
+        "ab",
+        ""
+      ]
+    },
+    "expected": {
+      "counts": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "reason": "State must reset: independent a and b texts cannot create an ab match."
+  },
+  {
+    "name": "aho_case_punctuation",
+    "input": {
+      "task": "aho",
+      "patterns": [
+        "A!",
+        "a!",
+        "!",
+        " "
+      ],
+      "texts": [
+        "A! a!A!",
+        " A! "
+      ]
+    },
+    "expected": {
+      "counts": [
+        [
+          2,
+          1,
+          3,
+          1
+        ],
+        [
+          1,
+          0,
+          1,
+          2
+        ]
+      ]
+    },
+    "reason": "Direct exact substring searches count each case-sensitive dictionary entry."
+  }
+]

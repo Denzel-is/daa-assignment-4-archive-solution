@@ -1,0 +1,419 @@
+{
+  "status": "PASS",
+  "seed": 40431026,
+  "named_cases": 65,
+  "seeded_oracle_cases": 320,
+  "mixed_requests": 770,
+  "mixed_batch": {
+    "seconds_including_JVM_JSON_IO": 1.012251,
+    "input_sha256": "7baae98d4653085d57abc9f0d1787e43b4e7202555a48849d8ee3311e3fbfd49",
+    "output_sha256": "970d55519cd47eacdf82c4e654c10c394c57de4ffc87129482813fa7c515d602",
+    "stdout_bytes": 31594
+  },
+  "witness_regressions": [
+    {
+      "task": "lcs",
+      "alternative_valid_accepted": 3,
+      "invalid_rejected": 3
+    },
+    {
+      "task": "merge",
+      "alternative_valid_accepted": 2,
+      "invalid_rejected": 4
+    },
+    {
+      "task": "tree",
+      "alternative_valid_accepted": 2,
+      "invalid_rejected": 4
+    },
+    {
+      "task": "suffix",
+      "alternative_valid_accepted": 2,
+      "invalid_rejected": 4
+    },
+    {
+      "task": "naive",
+      "alternative_valid_accepted": 1,
+      "invalid_rejected": 3
+    },
+    {
+      "task": "kmp",
+      "alternative_valid_accepted": 1,
+      "invalid_rejected": 3
+    },
+    {
+      "task": "rk",
+      "alternative_valid_accepted": 1,
+      "invalid_rejected": 3
+    },
+    {
+      "task": "aho",
+      "alternative_valid_accepted": 1,
+      "invalid_rejected": 3
+    }
+  ],
+  "full_limit_cases": [
+    {
+      "name": "lcs_1000x1000_tied",
+      "task": "lcs",
+      "dimensions": {
+        "a_length": 1000,
+        "b_length": 1000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.934961,
+      "input_sha256": "4cb2504d45cd8cb3daf6c5a38ad0248c80812e83b8cfca76445b5832c415a351",
+      "output_sha256": "558b95c27383511d118467ca9def8f5af6aa392588b7a45e76ce70a84a8e50c4",
+      "stdout_bytes": 1076
+    },
+    {
+      "name": "lcs_1000x1000_disjoint",
+      "task": "lcs",
+      "dimensions": {
+        "a_length": 1000,
+        "b_length": 1000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.677578,
+      "input_sha256": "64415975ec1825ad204b11e921856621c6c6b0f2e74b3bb7cc7c06ca1c32771b",
+      "output_sha256": "516e75af7193a0c4f7c43a8099a66cb09446a27338dc819e74b3ec56c4746af2",
+      "stdout_bytes": 75
+    },
+    {
+      "name": "lcs_empty_by_1000",
+      "task": "lcs",
+      "dimensions": {
+        "a_length": 0,
+        "b_length": 1000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.618159,
+      "input_sha256": "440c48a0bda3b40ab9885e3f495e3124c189e5333d36b4ded6027f045812b073",
+      "output_sha256": "3bea808b00f6a924e20495c3b57c190fb622567ac2ac4b4951afd6dcc55cae18",
+      "stdout_bytes": 75
+    },
+    {
+      "name": "merge_200_billion_blocks",
+      "task": "merge",
+      "dimensions": {
+        "blocks": 200,
+        "max_block": 1000000000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.622021,
+      "input_sha256": "8e5ef9ed65ce1482a2495736d3301e3f02b44a6261d60da32f30e272da71cdc6",
+      "output_sha256": "587d9dc463d0fa9930408d63eb079b6556c839901555f7bebd7e7798d77aa5ec",
+      "stdout_bytes": 2536
+    },
+    {
+      "name": "merge_200_zero_blocks",
+      "task": "merge",
+      "dimensions": {
+        "blocks": 200,
+        "max_block": 0
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.695218,
+      "input_sha256": "c5a04b50f0e8c075b7dd6c79edcc588de5c645b7a3f9bee300a6862645e97ee8",
+      "output_sha256": "49c3c224b3712c79a42a673c1a3e64c79a3feb491b2ad5470c76f229de544bb3",
+      "stdout_bytes": 2634
+    },
+    {
+      "name": "tree_100000_deep_chain",
+      "task": "tree",
+      "dimensions": {
+        "vertices": 100000,
+        "edges": 99999
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 1.1004,
+      "input_sha256": "6b29cd61d5fa63e55153d11e65271b00cafcda351ad9598b0df024ec1bddc403",
+      "output_sha256": "ba96e68683c975d3622c6b57150a94e2bb21b3c767a0bc517d7021a95ec47cc9",
+      "stdout_bytes": 294532
+    },
+    {
+      "name": "tree_100000_negative_chain",
+      "task": "tree",
+      "dimensions": {
+        "vertices": 100000,
+        "edges": 99999
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 1.041499,
+      "input_sha256": "a820b247d1b86a9a03f92e964706a74953eab9146c6d46c604d9176310e0f2f8",
+      "output_sha256": "b3c33432b8f5bdcb8733f2016fb89fe03effe528e93f53380d526cbcb6eb4f12",
+      "stdout_bytes": 75
+    },
+    {
+      "name": "tree_100000_zero_ties",
+      "task": "tree",
+      "dimensions": {
+        "vertices": 100000,
+        "edges": 99999
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 1.323288,
+      "input_sha256": "614101f468a482d5bd5d85c4726e1afc6e079dd0461961a5998d2199abc2b8c8",
+      "output_sha256": "ac6b24a1bc7ce1418179a814cd229e6c9616748d26d58016cbd8479bd24b26b7",
+      "stdout_bytes": 75
+    },
+    {
+      "name": "tree_100000_star",
+      "task": "tree",
+      "dimensions": {
+        "vertices": 100000,
+        "edges": 99999
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 1.04398,
+      "input_sha256": "38b559519ba0d52d280c8cbd300b9015e061207ee96abf949c766c5d7b9d31e5",
+      "output_sha256": "3d7384c4e7d7aa17080f8d837fa8e6f7ad970d1357eebe43c63d4ec494028572",
+      "stdout_bytes": 588975
+    },
+    {
+      "name": "naive_3000_equal",
+      "task": "naive",
+      "dimensions": {
+        "text_length": 3000,
+        "pattern_length": 3000,
+        "length_product": 9000000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.610473,
+      "input_sha256": "328c7db646efb1c33bdd1e1caa9f82677cf8e45714b316aa543abd4ea89d37fc",
+      "output_sha256": "a6a041f115806daae27ed4eff0d148713f995260b595d4bcf2f9d2bd837bcf5f",
+      "stdout_bytes": 66
+    },
+    {
+      "name": "naive_3000_near_mismatch",
+      "task": "naive",
+      "dimensions": {
+        "text_length": 3000,
+        "pattern_length": 1500,
+        "length_product": 4500000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 1.131562,
+      "input_sha256": "be2627b66b0bf075a6f3c08cdcc6df87514602e87b81dfc0bb0b003ee9084ada",
+      "output_sha256": "9948a02c97c543506895ef3d8f5047283034bd7c542453d07ce60feaa6a4dcdb",
+      "stdout_bytes": 65
+    },
+    {
+      "name": "naive_3000_empty",
+      "task": "naive",
+      "dimensions": {
+        "text_length": 3000,
+        "pattern_length": 0,
+        "length_product": 0
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.49894,
+      "input_sha256": "134b26c7adba7d72c5c79bee08f19b6066f06ec5811f79be7cac3619f5837357",
+      "output_sha256": "3398f1755a7b87048655f428f3f996878e17a81d095d9c2cdb109f84a15d7103",
+      "stdout_bytes": 13959
+    },
+    {
+      "name": "kmp_200000_by_100000",
+      "task": "kmp",
+      "dimensions": {
+        "text_length": 200000,
+        "pattern_length": 100000,
+        "length_product": 20000000000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.539939,
+      "input_sha256": "0d3599cf55ab55aa5b1c926974ad006aae8ccd5801b5e54e53216d73f2c113e1",
+      "output_sha256": "f2b1bdea8c347255f3145913942231dc7d128848dd0fe92c5524bba6ec363764",
+      "stdout_bytes": 294516
+    },
+    {
+      "name": "kmp_200000_empty",
+      "task": "kmp",
+      "dimensions": {
+        "text_length": 200000,
+        "pattern_length": 0,
+        "length_product": 0
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.602198,
+      "input_sha256": "4ddd693a1b685c157737d756b049c0807a2354026a66fc47ca1c4ad94a7910bc",
+      "output_sha256": "dd1e77666f812143b13bddd7b648e4aa1ae5b8a46b3a253e66ac14b5b5dbc370",
+      "stdout_bytes": 1288961
+    },
+    {
+      "name": "kmp_200000_near_mismatch",
+      "task": "kmp",
+      "dimensions": {
+        "text_length": 200000,
+        "pattern_length": 100000,
+        "length_product": 20000000000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.351522,
+      "input_sha256": "0d3f9f29442db4f4fb78bf425091b3429dd704087820bef8fcd3be009339f4f8",
+      "output_sha256": "9948a02c97c543506895ef3d8f5047283034bd7c542453d07ce60feaa6a4dcdb",
+      "stdout_bytes": 65
+    },
+    {
+      "name": "rk_10000_by_2000_dense",
+      "task": "rk",
+      "dimensions": {
+        "text_length": 10000,
+        "pattern_length": 2000,
+        "length_product": 20000000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.529686,
+      "input_sha256": "9ca90d1bf2994df914f30d0ac95730527f49d8ff7a0c598428995c481943523b",
+      "output_sha256": "8c4096667edea55b8a82115263bdf6c5d5477e204f7014011d205bbeb6e3591c",
+      "stdout_bytes": 38959
+    },
+    {
+      "name": "rk_10000_by_2000_collision",
+      "task": "rk",
+      "dimensions": {
+        "text_length": 10000,
+        "pattern_length": 2000,
+        "length_product": 20000000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.384547,
+      "input_sha256": "89cd74cfd7e570091d1e472e556e04cd4f2029cf89df2af1caf881cc81fda616",
+      "output_sha256": "9948a02c97c543506895ef3d8f5047283034bd7c542453d07ce60feaa6a4dcdb",
+      "stdout_bytes": 65
+    },
+    {
+      "name": "rk_pattern_length_10000",
+      "task": "rk",
+      "dimensions": {
+        "text_length": 2000,
+        "pattern_length": 10000,
+        "length_product": 20000000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.379386,
+      "input_sha256": "c2237dcee09f3d30391e4e2e9ce6524451fe9ef06cfd78b04ebe7824418443da",
+      "output_sha256": "9948a02c97c543506895ef3d8f5047283034bd7c542453d07ce60feaa6a4dcdb",
+      "stdout_bytes": 65
+    },
+    {
+      "name": "rk_10000_empty",
+      "task": "rk",
+      "dimensions": {
+        "text_length": 10000,
+        "pattern_length": 0,
+        "length_product": 0
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.380842,
+      "input_sha256": "5a85177a652ebb6b4facec4a3cae722f8a994f3e13aadb119f61666a840ed288",
+      "output_sha256": "99db9e7b4d9eb8676e85a74b027ce6fe5ced3b51651b5f3be4dcff3e542ec52b",
+      "stdout_bytes": 48960
+    },
+    {
+      "name": "suffix_50000_unary",
+      "task": "suffix",
+      "dimensions": {
+        "text_length": 50000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.560772,
+      "input_sha256": "1b368e477b56670d8d6778b46211733158a244953b7793c95fd6334019aad2b1",
+      "output_sha256": "fa6627ff0f69cd58c39b28500175711a6b8a9bd89c7da5582408a7002d738a5c",
+      "stdout_bytes": 627858
+    },
+    {
+      "name": "suffix_50000_periodic",
+      "task": "suffix",
+      "dimensions": {
+        "text_length": 50000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.535322,
+      "input_sha256": "ac125437b33cc51ce2aaa1006bae4ae2b39d1906248f148c5c4f2da0f57f0ecd",
+      "output_sha256": "fd34dc4c4252fec5d687f9dd5d2cbadaeff5be45dab4f03ba8beb1956edaeee7",
+      "stdout_bytes": 627853
+    },
+    {
+      "name": "suffix_50000_printable_random",
+      "task": "suffix",
+      "dimensions": {
+        "text_length": 50000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.634512,
+      "input_sha256": "b6276e9c0f6e64c45dd9ecfe7018488df40273231852e66f010c0ea3287fd4d0",
+      "output_sha256": "9949c4cd7b0586d0fbd713c7fc2bdd156db6e90e70fc90c6e527d3f931d43613",
+      "stdout_bytes": 388973
+    },
+    {
+      "name": "aho_dense_duplicates_suffixes_1m_counts",
+      "task": "aho",
+      "dimensions": {
+        "patterns": 10000,
+        "total_pattern_length": 100000,
+        "texts": 100,
+        "total_text_length": 200000,
+        "output_count_entries": 1000000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 1.202994,
+      "input_sha256": "f78ca2e7784cdac48a57cd0f0bc094eb959eb1e7b75782311cbd8e3072d1255d",
+      "output_sha256": "2c3630bdd1be599450ca91fd1de52e063ee01a24a406ded2c762b35953f9d721",
+      "stdout_bytes": 5000261
+    },
+    {
+      "name": "aho_deep_trie_duplicate_shallow_terminals",
+      "task": "aho",
+      "dimensions": {
+        "patterns": 10000,
+        "total_pattern_length": 100000,
+        "texts": 1,
+        "total_text_length": 200000,
+        "output_count_entries": 10000
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.85612,
+      "input_sha256": "89ef21f54def13d2fc65dbbad119a60155eac7125dd1f35652155c281c82ef99",
+      "output_sha256": "0c3468a6d82e18ed37004856fb599d4abc8e6f9688a174dc70784bb5f5159fe4",
+      "stdout_bytes": 70063
+    },
+    {
+      "name": "aho_100001_states_100_texts",
+      "task": "aho",
+      "dimensions": {
+        "patterns": 1,
+        "total_pattern_length": 100000,
+        "texts": 100,
+        "total_text_length": 200000,
+        "output_count_entries": 100
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.785565,
+      "input_sha256": "00bf1b10eb8619ea70277d2fba85c69fefc4178d2e2d52ad94484ae376811a7b",
+      "output_sha256": "beb8272acf219613d9eca8d438fcd83fcabb05dee4264bef826c7605e0f598df",
+      "stdout_bytes": 461
+    },
+    {
+      "name": "aho_100_empty_dictionary_rows",
+      "task": "aho",
+      "dimensions": {
+        "patterns": 0,
+        "total_pattern_length": 0,
+        "texts": 100,
+        "total_text_length": 200000,
+        "output_count_entries": 0
+      },
+      "result": "PASS",
+      "seconds_including_JVM_JSON_IO": 0.572938,
+      "input_sha256": "d2f8d53744e529d0bab9516fa9e596e16800f91ef38a92267700ccc18917967d",
+      "output_sha256": "16b5411a53f4d52bc6a381253cfb44be413692d04cac761def292e82303e23f2",
+      "stdout_bytes": 361
+    }
+  ],
+  "java_heap": "384 MiB",
+  "batch_timeout_seconds": 20,
+  "stdout_limit_bytes": 8388608,
+  "compile_command": "javac --release 17 -encoding UTF-8 -d Java/build Java/source/*.java",
+  "command": "python tests/student/verify.py"
+}
